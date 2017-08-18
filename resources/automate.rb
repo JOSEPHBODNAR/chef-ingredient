@@ -59,6 +59,8 @@ action :create do
     platform_version new_resource.platform_version if new_resource.platform_version
   end
 
+  # Extract custom username and group from the automate config, if it is set.
+  # We will use these values to set permissions on files appropriately.
   os_user = new_resource.config[/user\['username'\] ?= ?['"](?<username>.*)['"]/, 'username'] || 'delivery'
   os_group = new_resource.config[/user\['group'\] ?= ?['"](?<group>.*)['"]/, 'group'] || 'delivery'
 
