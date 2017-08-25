@@ -56,6 +56,7 @@ action :create do
     accept_license new_resource.accept_license
     platform new_resource.platform if new_resource.platform
     platform_version new_resource.platform_version if new_resource.platform_version
+    sensitive new_resource.sensitive
   end
 
   os_user = new_resource.config[/user\['username'\] ?= ?['"](?<username>.*)['"]/, 'username'] || 'delivery'
@@ -72,6 +73,7 @@ action :create do
     user os_user
     group os_group
     mode '0644'
+    sensitive new_resource.sensitive
   end
 
   {
@@ -83,6 +85,7 @@ action :create do
       user 'root'
       group 'root'
       mode '0644'
+      sensitive new_resource.sensitive
     end
   end
 
@@ -91,6 +94,7 @@ action :create do
     user 'root'
     group 'root'
     mode '0600'
+    sensitive new_resource.sensitive
   end
 
   file '/etc/delivery/builder_key.pub' do
@@ -113,6 +117,7 @@ EOF
   end
 
   ingredient_config 'automate' do
+    sensitive new_resource.sensitive
     notifies :reconfigure, 'chef_ingredient[automate]', :immediately
   end
 

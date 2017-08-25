@@ -84,6 +84,7 @@ action :create do
 
   file '/opt/chefdk/embedded/ssl/certs/cacert.pem' do
     content @cacert_pem
+    sensitive new_resource.sensitive
   end
 
   ohai 'reload_passwd' do
@@ -117,6 +118,7 @@ action :create do
       mode '0600'
       user 'root'
       group 'root'
+      sensitive new_resource.sensitive
     end
 
     chef_file "#{workspace}/#{dir}/#{chef_user}.pem" do
@@ -124,6 +126,7 @@ action :create do
       mode '0600'
       user 'dbuild'
       group 'dbuild'
+      sensitive new_resource.sensitive
     end
   end
 
@@ -167,6 +170,7 @@ action :create do
     owner 'root'
     group 'dbuild'
     mode '0640'
+    sensitive new_resource.sensitive
   end
 
   file new_resource.chef_config_path do
@@ -287,6 +291,7 @@ action :create do
     Defaults:#{build_user} secure_path = /usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
     EOF
       mode '0440'
+      sensitive new_resource.sensitive
     end
 
     directory ::File.join(home_dir, '.ssh') do

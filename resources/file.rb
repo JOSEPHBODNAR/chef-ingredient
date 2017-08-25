@@ -57,6 +57,7 @@ action :create do
       user new_resource.user
       group new_resource.group
       mode new_resource.mode
+      sensitive new_resource.sensitive
     end
   end
 end
