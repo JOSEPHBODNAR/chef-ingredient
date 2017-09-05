@@ -33,6 +33,7 @@ property :chef_fqdn, String, default: URI.parse(Chef::Config['chef_server_url'])
 property :automate_fqdn, String, required: true
 property :supermarket_fqdn, String
 property :job_dispatch_version, String, default: 'v2'
+property :build_user, String, default: 'job_runner'
 property :automate_user, String, default: 'admin'
 property :automate_password, String
 property :automate_enterprise, String, default: 'chef'
@@ -226,8 +227,8 @@ action :create do
       action [:enable, :start]
     end
   when 'v2'
-    build_user = 'job_runner'
-    home_dir = '/home/job_runner'
+    build_user = new_resource.build_user
+    home_dir = "/home/#{build_user}"
 
     execute 'tag node as job-runner' do
       command "knife tag create #{Chef::Config['node_name']} delivery-job-runner -c #{new_resource.chef_config_path}"
